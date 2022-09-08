@@ -5,7 +5,13 @@ import { getCategories } from '../services/api';
 export default class Aside extends Component {
   state = {
     categorieName: '',
+    categorie: ''
   };
+
+  setCategory = (event) => {
+    const { target: { value } } = event;
+    this.setState({ categorie: value });
+  }
 
   async componentDidMount() {
     const categories = await getCategories();
@@ -17,6 +23,8 @@ export default class Aside extends Component {
             <input
               type="radio"
               name=" "
+              value={ t.name }
+              onChange={ this.setCategory }
             />
             { t.name }
           </label>
