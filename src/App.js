@@ -5,6 +5,7 @@ import Header from './components/Header';
 import HomePage from './components/HomePage';
 import Aside from './components/Aside';
 import CartBtn from './components/CartBtn';
+import CartPage from './components/CartPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Aside />
             <HomePage />
           </Route>
+          <Route exact path="/CartPage" component={ CartPage } />
         </Switch>
         <CartBtn />
       </div>
