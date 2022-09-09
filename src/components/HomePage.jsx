@@ -1,28 +1,36 @@
 import React, { Component } from 'react';
-import { getProductsFromCategoryAndQuery } from '../services/api';
-import ProductCard from './ProductCard';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import '../css/homepage.css';
 
 export default class HomePage extends Component {
   state = {
+    filter: '',
     haveContent: false,
     searchResult: true,
     queryInput: '',
     productsArray: [],
+    categories: [],
   };
+
+  async componentDidMount() {
+    const categ = await getCategories();
+    this.setState({ categories: categ });
+    this.createList();
+  }
 
   inputHandle = (event) => {
     const { target: { value } } = event;
     this.setState({ queryInput: value });
   };
 
-  buttonHandler = async (event) => {
+  createList = async () => {
     const found = 0;
-    const { queryInput } = this.state;
-    event.preventDefault();
+    const { queryInput, filter } = this.state;
     const products = await getProductsFromCategoryAndQuery({
-      categoryId: '',
-      query: `${queryInput}`,
+      categoryId: filter,
+      query: queryInput,
     });
+
     const { results } = products;
     this.setState({ productsArray: results });
     if (results.length === found) {
@@ -33,26 +41,71 @@ export default class HomePage extends Component {
     this.setState({ haveContent: true });
   };
 
+  filterItem = async (event) => {
+    const { target: { value } } = event;
+    this.setState({ filter: value }, () => this.createList());
+  };
+
+  handleClick = (event) => {
+    event.preventDefault();
+    this.createList();
+  };
+
   render() {
-    const { haveContent, productsArray, searchResult } = this.state;
+    const {
+      haveContent,
+      productsArray,
+      searchResult,
+      categories,
+    } = this.state;
+
     return (
-      <div>
-        <form
-          action=""
+      <div
+        className="homePage"
+      >
+        <div
+          className="asideBar"
         >
-          <input
-            type="text"
-            data-testid="query-input"
-            onChange={ this.inputHandle }
-          />
-          <button
-            type="submit"
-            data-testid="query-button"
-            onClick={ this.buttonHandler }
+          <form
+            action=""
           >
-            pesquisar
-          </button>
-        </form>
+            <input
+              type="text"
+              data-testid="query-input"
+              onChange={ this.inputHandle }
+            />
+            <button
+              type="submit"
+              data-testid="query-button"
+              onClick={ this.handleClick }
+            >
+              pesquisar
+            </button>
+          </form>
+          <ul
+            onChange={ this.filterItem }
+          >
+            {
+              categories.map((categorie) => {
+                const {
+                  id,
+                  name,
+                } = categorie;
+                return (
+                  <li key={ id } data-testid="category">
+                    <input
+                      type="radio"
+                      name="categorie"
+                      value={ id }
+                      id={ id }
+                    />
+                    <label htmlFor={ id }>{ name }</label>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
         {(
           haveContent
             ? (
@@ -65,20 +118,21 @@ export default class HomePage extends Component {
                       </p>
                     )
                     : (
-                      <ul>
+                      <ul
+                        className="products"
+                      >
                         {
                           productsArray.map((product) => {
-                            const { title, id, price } = product;
+                            const { title, price, thumbnail, id } = product;
                             return (
                               <li
-                                key={ id }
+                                className="productCard"
                                 data-testid="product"
+                                key={ id }
                               >
-                                <ProductCard
-                                  id={ id }
-                                  price={ price }
-                                  title={ title }
-                                />
+                                <img src={ thumbnail } alt="" />
+                                <p>{ title }</p>
+                                <p>{ price }</p>
                               </li>
                             );
                           })
