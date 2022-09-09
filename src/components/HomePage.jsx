@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import { getCategories,
+  getProductsFromCategoryAndQuery } from '../services/api';
 import '../css/homepage.css';
+import cart from '../services/cartItems';
 
 export default class HomePage extends Component {
   state = {
@@ -10,7 +12,6 @@ export default class HomePage extends Component {
     queryInput: '',
     productsArray: [],
     categories: [],
-    storageProduct: [],
   };
 
   async componentDidMount() {
@@ -52,15 +53,20 @@ export default class HomePage extends Component {
     this.createList();
   };
 
-  btnAddToCard = ({ target }) => {
-    const { value } = target;
-    this.setState({
-      storageProduct: value,
-    }, () => {
-      const { storageProduct } = this.state;
-      localStorage.setItem('cartItems', storageProduct);
-      console.log(storageProduct);
-    });
+  btnAddToCard = (products) => {
+    const {
+      title,
+      price,
+      thumbnail,
+      id,
+    } = products;
+    const objProduto = {
+      title,
+      price,
+      thumbnail,
+      id,
+    };
+    cart.push(objProduto);
   };
 
   render() {
@@ -147,9 +153,8 @@ export default class HomePage extends Component {
                                 <p>{ price }</p>
                                 <button
                                   type="button"
-                                  onClick={ this.btnAddToCard }
+                                  onClick={ this.btnAddToCard(product) }
                                   data-testid="product-add-to-cart"
-                                  value={ id }
                                 >
                                   Adicionar ao Carrinho
                                 </button>

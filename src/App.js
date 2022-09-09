@@ -6,9 +6,6 @@ import HomePage from './components/HomePage';
 import CartPage from './components/CartPage';
 
 class App extends React.Component {
-  state: {
-    teste: undefined
-  }
   render() {
     return (
       <BrowserRouter>
