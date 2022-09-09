@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import { Link } from 'react-router-dom';
 
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import cart from '../services/cartItems';
-import '../css/homepage.css';
 
 export default class HomePage extends Component {
   state = {
@@ -147,11 +146,10 @@ export default class HomePage extends Component {
                           productsArray.map((product) => {
                             const { title, price, thumbnail, id } = product;
                             return (
-                              <Link
-                                to={ `/home/${id}` }
+                              <li
                                 key={ id }
-                                data-testid="product-detail-link"
                                 className="productCard"
+                                data-testid="product"
                               >
                                 <img src={ thumbnail } alt="" />
                                 <p>{ title }</p>
@@ -163,7 +161,13 @@ export default class HomePage extends Component {
                                 >
                                   Adicionar ao Carrinho
                                 </button>
-                              </Link>
+                                <Link
+                                  to={ `/home/${id}` }
+                                  data-testid="product-detail-link"
+                                >
+                                  Detalhes
+                                </Link>
+                              </li>
                             );
                           })
                         }

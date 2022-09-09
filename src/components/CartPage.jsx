@@ -3,7 +3,7 @@ import cart from '../services/cartItems';
 
 export default class CartPage extends Component {
   state = {
-    cartPage: true,
+    cartPage: false,
     cartItems: [],
   };
 
@@ -13,12 +13,25 @@ export default class CartPage extends Component {
     });
   }
 
+  updateCart = () => {
+    const noItens = 0;
+    const {
+      cartItems,
+    } = this.state;
+    if (cartItems.length === noItens) {
+      this.setState({ cartPage: true });
+    } else {
+      this.setState({ cartPage: false });
+    }
+  }
+
   render() {
     const { cartPage, cartItems } = this.state;
     return (
       <div>
         {cartPage ? (
-
+          <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>
+        ) : (
           <ol>
             {cartItems.map((produto) => {
               const { title, price, thumbnail, id } = produto;
@@ -26,7 +39,7 @@ export default class CartPage extends Component {
                 <li key={ id }>
                   <div>
                     <img src={ thumbnail } alt={ title } />
-                    <p data-testid="shopping-cart-product-name">{title}</p>
+                    <p data-testid="shopping-cart-product-name">{ title }</p>
                     <p>
                       Preço: R$
                       {price}
@@ -42,11 +55,8 @@ export default class CartPage extends Component {
               );
             })}
           </ol>
-        ) : (
-          <h1 data-testid="shopping-cart-empty-message">
-            Seu carrinho está vazio
-          </h1>
-        )}
+        )
+        }
       </div>
     );
   }

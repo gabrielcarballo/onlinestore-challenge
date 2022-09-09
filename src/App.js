@@ -5,6 +5,7 @@ import Header from './components/Header';
 import HomePage from './components/HomePage';
 import CartPage from './components/CartPage';
 import ProductPage from './components/ProductPage';
+import CartBtn from './components/CartBtn';
 
 class App extends React.Component {
   render() {
@@ -18,6 +19,7 @@ class App extends React.Component {
             <Route exact path="/CartPage" component={ CartPage } />
             <Route exact path="/" component={ HomePage } />
           </Switch>
+          <CartBtn />
         </div>
       </BrowserRouter>
     );
