@@ -3,7 +3,6 @@ import cart from '../services/cartItems';
 
 export default class CartPage extends Component {
   state = {
-    cartPage: false,
     cartItems: [],
   };
 
@@ -13,23 +12,11 @@ export default class CartPage extends Component {
     });
   }
 
-  updateCart = () => {
-    const noItens = 0;
-    const {
-      cartItems,
-    } = this.state;
-    if (cartItems.length === noItens) {
-      this.setState({ cartPage: true });
-    } else {
-      this.setState({ cartPage: false });
-    }
-  }
-
   render() {
-    const { cartPage, cartItems } = this.state;
+    const { cartItems } = this.state;
     return (
       <div>
-        {cartPage ? (
+        {cartItems.length <= 0 ? (
           <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>
         ) : (
           <ol>
@@ -55,8 +42,7 @@ export default class CartPage extends Component {
               );
             })}
           </ol>
-        )
-        }
+        )}
       </div>
     );
   }
