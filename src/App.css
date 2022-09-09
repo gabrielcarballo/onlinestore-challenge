@@ -40,3 +40,33 @@
     transform: rotate(360deg);
   }
 }
+
+.homePage {
+  display: flex;
+  width: 100%;
+}
+
+.productList {
+  flex: 4;
+}
+
+.asideBar {
+  flex: 1;
+  text-align: left;
+}
+
+.asideBar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.productCard {
+  height: 300px;
+  width: 300px;
+}

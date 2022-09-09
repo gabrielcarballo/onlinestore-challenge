@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { getCategories, getProductsFromCategory, getProductsFromCategoryAndQuery } from '../services/api';
-import Aside from './Aside';
-import ProductCard from './ProductCard';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import '../css/homepage.css';
 
 export default class HomePage extends Component {
   state = {
     filter: '',
-    haveContent: false,
-    searchResult: true,
+    haveContent: true,
+    searchResult: false,
     queryInput: '',
     productsArray: [],
     categories: [],
@@ -16,6 +15,7 @@ export default class HomePage extends Component {
   async componentDidMount() {
     const categ = await getCategories();
     this.setState({ categories: categ });
+    this.createList();
   }
 
   inputHandle = (event) => {
@@ -23,16 +23,14 @@ export default class HomePage extends Component {
     this.setState({ queryInput: value });
   };
 
-  buttonHandler = async (event) => {
+  createList = async () => {
     const found = 0;
     const { queryInput, filter } = this.state;
-    event.preventDefault();
-    const filtro = await getProductsFromCategory(filter);
-    this.setState({ productsArray: filtro });
     const products = await getProductsFromCategoryAndQuery({
       categoryId: filter,
-      query: `${queryInput}`,
+      query: queryInput,
     });
+
     const { results } = products;
     this.setState({ productsArray: results });
     if (results.length === found) {
@@ -45,42 +43,69 @@ export default class HomePage extends Component {
 
   filterItem = async (event) => {
     const { target: { value } } = event;
-    console.log(value)
-    this.setState({ filter: value })
-    const products = await getProductsFromCategory(value);
-    console.log(products)
-    const { results } = products;
-    this.setState({ productsArray: results });
-    this.setState({ searchResult: false });
-    this.setState({ haveContent: true });
-  }
+    this.setState({ filter: value }, () => this.createList());
+  };
+
+  handleClick = (event) => {
+    event.preventDefault();
+    this.createList();
+  };
 
   render() {
-    const { haveContent, productsArray, searchResult, categories } = this.state;
-    
+    const {
+      haveContent,
+      productsArray,
+      searchResult,
+      categories,
+    } = this.state;
+
     return (
-      <div>
+      <div
+        className="homePage"
+      >
         <div
-          onChange={ this.filterItem }
+          className="asideBar"
         >
-          <Aside />
-        </div>
-        <form
-          action=""
-        >
-          <input
-            type="text"
-            data-testid="query-input"
-            onChange={ this.inputHandle }
-          />
-          <button
-            type="submit"
-            data-testid="query-button"
-            onClick={ this.buttonHandler }
+          <form
+            action=""
           >
-            pesquisar
-          </button>
-        </form>
+            <input
+              type="text"
+              data-testid="query-input"
+              onChange={ this.inputHandle }
+            />
+            <button
+              type="submit"
+              data-testid="query-button"
+              onClick={ this.handleClick }
+            >
+              pesquisar
+            </button>
+          </form>
+          <ul
+            onChange={ this.filterItem }
+          >
+            {
+              categories.map((categorie) => {
+                const {
+                  id,
+                  name,
+                } = categorie;
+                return (
+                  <li key={ id } data-testid="category">
+                    <input
+                      type="radio"
+                      name="categorie"
+                      value={ id }
+                      id={ id }
+                    />
+                    <label htmlFor={ id }>{ name }</label>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
         {(
           haveContent
             ? (
@@ -93,20 +118,21 @@ export default class HomePage extends Component {
                       </p>
                     )
                     : (
-                      <ul>
+                      <ul
+                        className="products"
+                      >
                         {
                           productsArray.map((product) => {
-                            const { title, id, price } = product;
+                            const { title, price, thumbnail, id } = product;
                             return (
                               <li
-                                key={ id }
+                                className="productCard"
                                 data-testid="product"
+                                key={ id }
                               >
-                                <ProductCard
-                                  id={ id }
-                                  price={ price }
-                                  title={ title }
-                                />
+                                <img src={ thumbnail } alt="" />
+                                <p>{ title }</p>
+                                <p>{ price }</p>
                               </li>
                             );
                           })

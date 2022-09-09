@@ -13,15 +13,13 @@ export default class Aside extends Component {
     this.setState({
       categorieName: categories.map((t) => (
         <li key={ t.id } data-testid="category">
-          <label htmlFor={ t.id }>
-            <input
+          <input
               type="radio"
-              name=" "
-              value={ t.name }
-              onChange={ this.setCategory }
+              name="categorie"
+              value={ t.id }
+              id={ t.id }
             />
-            { t.name }
-          </label>
+          <label htmlFor={ t.id }>{ t.name }</label>
         </li>
       )),
     });
