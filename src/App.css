@@ -55,7 +55,7 @@
   text-align: left;
 }
 
-.asideBar ul {
+ul {
   list-style: none;
   padding: 0;
 }
@@ -69,4 +69,12 @@
 .productCard {
   height: 300px;
   width: 300px;
+  border: #282c34 solid 1px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #282c34;
+}
+
+.productCard:hover {
+  cursor: pointer;
 }
