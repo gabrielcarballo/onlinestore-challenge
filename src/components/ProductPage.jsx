@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
-import { getProductById } from '../services/api'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { getProductById } from '../services/api';
 
 export default class ProductPage extends Component {
   state = {
     productInfos: {},
-  }
+  };
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
@@ -22,7 +23,6 @@ export default class ProductPage extends Component {
       title,
       price,
       thumbnail,
-      available_quantity,
     } = productInfos;
     return (
       <div>
@@ -35,22 +35,20 @@ export default class ProductPage extends Component {
         <div>
           <img
             src={ thumbnail }
-            alt={ title}
+            alt={ title }
             data-testid="product-detail-image"
           />
           <div>
-            <p>{ `Quantidade disponivel: ${ available_quantity}` }</p>
             <p>{ id }</p>
           </div>
         </div>
         <button
           type="button"
-          
         >
-
+          Adicionar ao carrinho
         </button>
       </div>
-    )
+    );
   };
 
   render() {
@@ -60,6 +58,10 @@ export default class ProductPage extends Component {
           this.createProductPage()
         }
       </section>
-    )
+    );
   }
 }
+
+ProductPage.propTypes = {
+  match: PropTypes.instanceOf(Object).isRequired,
+};

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 export default class HomePage extends Component {
@@ -128,7 +128,7 @@ export default class HomePage extends Component {
                           productsArray.map((product) => {
                             const { title, price, thumbnail, id } = product;
                             return (
-                              <Link 
+                              <Link
                                 to={ `/home/${id}` }
                                 key={ id }
                                 data-testid="product-detail-link"
