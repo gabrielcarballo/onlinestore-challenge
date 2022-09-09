@@ -10,6 +10,7 @@ export default class HomePage extends Component {
     queryInput: '',
     productsArray: [],
     categories: [],
+    storageProduct: [],
   };
 
   async componentDidMount() {
@@ -49,6 +50,17 @@ export default class HomePage extends Component {
   handleClick = (event) => {
     event.preventDefault();
     this.createList();
+  };
+
+  btnAddToCard = ({ target }) => {
+    const { value } = target;
+    this.setState({
+      storageProduct: value,
+    }, () => {
+      const { storageProduct } = this.state;
+      localStorage.setItem('cartItems', storageProduct);
+      console.log(storageProduct);
+    });
   };
 
   render() {
@@ -133,6 +145,14 @@ export default class HomePage extends Component {
                                 <img src={ thumbnail } alt="" />
                                 <p>{ title }</p>
                                 <p>{ price }</p>
+                                <button
+                                  type="button"
+                                  onClick={ this.btnAddToCard }
+                                  data-testid="product-add-to-cart"
+                                  value={ id }
+                                >
+                                  Adicionar ao Carrinho
+                                </button>
                               </li>
                             );
                           })
