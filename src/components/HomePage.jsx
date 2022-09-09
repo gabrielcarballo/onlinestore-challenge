@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import cart from '../services/cartItems';
 
 export default class HomePage extends Component {
   state = {
@@ -49,6 +51,22 @@ export default class HomePage extends Component {
   handleClick = (event) => {
     event.preventDefault();
     this.createList();
+  };
+
+  btnAddToCard = (products) => {
+    const {
+      title,
+      price,
+      thumbnail,
+      id,
+    } = products;
+    const objProduto = {
+      title,
+      price,
+      thumbnail,
+      id,
+    };
+    cart.push(objProduto);
   };
 
   render() {
@@ -128,20 +146,28 @@ export default class HomePage extends Component {
                           productsArray.map((product) => {
                             const { title, price, thumbnail, id } = product;
                             return (
-                              <Link
-                                to={ `/home/${id}` }
+                              <li
                                 key={ id }
-                                data-testid="product-detail-link"
                                 className="productCard"
+                                data-testid="product"
                               >
-                                <li
-                                  data-testid="product"
+                                <img src={ thumbnail } alt="" />
+                                <p>{ title }</p>
+                                <p>{ price }</p>
+                                <button
+                                  type="button"
+                                  onClick={ () => this.btnAddToCard(product) }
+                                  data-testid="product-add-to-cart"
                                 >
-                                  <img src={ thumbnail } alt="" />
-                                  <p>{ title }</p>
-                                  <p>{ price }</p>
-                                </li>
-                              </Link>
+                                  Adicionar ao Carrinho
+                                </button>
+                                <Link
+                                  to={ `/home/${id}` }
+                                  data-testid="product-detail-link"
+                                >
+                                  Detalhes
+                                </Link>
+                              </li>
                             );
                           })
                         }
