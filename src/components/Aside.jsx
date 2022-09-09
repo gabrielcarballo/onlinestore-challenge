@@ -5,13 +5,7 @@ import { getCategories } from '../services/api';
 export default class Aside extends Component {
   state = {
     categorieName: '',
-    categorie: ''
   };
-
-  setCategory = (event) => {
-    const { target: { value } } = event;
-    this.setState({ categorie: value });
-  }
 
   async componentDidMount() {
     const categories = await getCategories();
