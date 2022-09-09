@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { getCategories,
-  getProductsFromCategoryAndQuery } from '../services/api';
-import '../css/homepage.css';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import { Link } from 'react-router-dom';
+
 import cart from '../services/cartItems';
+import '../css/homepage.css';
 
 export default class HomePage extends Component {
   state = {
@@ -110,7 +111,10 @@ export default class HomePage extends Component {
                   name,
                 } = categorie;
                 return (
-                  <li key={ id } data-testid="category">
+                  <li
+                    key={ id }
+                    data-testid="category"
+                  >
                     <input
                       type="radio"
                       name="categorie"
@@ -143,10 +147,11 @@ export default class HomePage extends Component {
                           productsArray.map((product) => {
                             const { title, price, thumbnail, id } = product;
                             return (
-                              <li
-                                className="productCard"
-                                data-testid="product"
+                              <Link
+                                to={ `/home/${id}` }
                                 key={ id }
+                                data-testid="product-detail-link"
+                                className="productCard"
                               >
                                 <img src={ thumbnail } alt="" />
                                 <p>{ title }</p>
@@ -158,7 +163,7 @@ export default class HomePage extends Component {
                                 >
                                   Adicionar ao Carrinho
                                 </button>
-                              </li>
+                              </Link>
                             );
                           })
                         }
