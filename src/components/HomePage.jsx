@@ -153,7 +153,7 @@ export default class HomePage extends Component {
                                 <p>{ price }</p>
                                 <button
                                   type="button"
-                                  onClick={ this.btnAddToCard(product) }
+                                  onClick={ () => this.btnAddToCard(product) }
                                   data-testid="product-add-to-cart"
                                 >
                                   Adicionar ao Carrinho
