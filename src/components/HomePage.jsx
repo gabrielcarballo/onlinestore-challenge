@@ -5,8 +5,8 @@ import '../css/homepage.css';
 export default class HomePage extends Component {
   state = {
     filter: '',
-    haveContent: true,
-    searchResult: false,
+    haveContent: false,
+    searchResult: true,
     queryInput: '',
     productsArray: [],
     categories: [],
