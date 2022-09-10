@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getProductById } from '../services/api';
+import cart from '../services/cartItems';
 
 export default class ProductPage extends Component {
   state = {
@@ -12,6 +13,25 @@ export default class ProductPage extends Component {
     const apiReturn = await getProductById(id);
     this.setState({ productInfos: apiReturn });
   }
+
+  addToCart = () => {
+    const {
+      productInfos,
+    } = this.state;
+    const {
+      id,
+      title,
+      price,
+      thumbnail,
+    } = productInfos;
+    const objProduto = {
+      title,
+      price,
+      thumbnail,
+      id,
+    };
+    cart.push(objProduto);
+  };
 
   createProductPage = () => {
     const {
@@ -44,6 +64,8 @@ export default class ProductPage extends Component {
         </div>
         <button
           type="button"
+          onClick={ this.addToCart }
+          data-testid="product-detail-add-to-cart"
         >
           Adicionar ao carrinho
         </button>
