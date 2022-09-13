@@ -6,7 +6,7 @@ export default class EvaluationBtn extends Component {
     const { handleClick } = this.props;
     return (
       <button
-        type="button"
+        type="submit"
         onClick={ handleClick }
         data-testid="submit-review-btn"
       >
