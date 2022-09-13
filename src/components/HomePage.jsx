@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
-import cart from '../services/cartItems';
+import { makeCartItem } from '../services/cartItems';
 
 export default class HomePage extends Component {
   state = {
@@ -65,8 +65,9 @@ export default class HomePage extends Component {
       price,
       thumbnail,
       id,
+      quantity: 1,
     };
-    cart.push(objProduto);
+    makeCartItem(objProduto);
   };
 
   render() {
