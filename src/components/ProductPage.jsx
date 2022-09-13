@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getProductById } from '../services/api';
-import cart from '../services/cartItems';
+import { makeCartItem } from '../services/cartItems';
 
 export default class ProductPage extends Component {
   state = {
@@ -29,8 +29,9 @@ export default class ProductPage extends Component {
       price,
       thumbnail,
       id,
+      quantity: 1,
     };
-    cart.push(objProduto);
+    makeCartItem(objProduto);
   };
 
   createProductPage = () => {
